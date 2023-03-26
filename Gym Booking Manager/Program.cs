@@ -41,8 +41,8 @@ namespace Gym_Booking_Manager
                 else if (cmd == 2)
                 {
                     Database db = new Database();
-                    db.CreateDatabase();
-                    db.ResetDatabase();
+                    //db.CreateDatabase();
+                    //db.ResetDatabase();
                     LoadFiles(2);
                 }
                 else { Console.WriteLine("Try again"); cmd = 0; }
@@ -72,8 +72,8 @@ namespace Gym_Booking_Manager
                 Database.ReadData("equipment");
 				Database.ReadData("spaces");
 				Database.ReadData("personaltrainer");
-				Database.ReadData("groupactivity");
-			}
+                Database.ReadData("groupactivity");
+            }
 
 			Console.WriteLine("---------------------SPACES LOADED---------------------");
 			for (int i = 0; i < Space.spaceList.Count; i++)

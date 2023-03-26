@@ -145,8 +145,8 @@ namespace Gym_Booking_Manager
                             database.WriteData("Equipment");
 							database.WriteData("Spaces");
 							database.WriteData("PersonalTrainer");
-							database.WriteData("GroupActivity");
-							Environment.Exit(0);
+                            database.WriteData("GroupActivity");
+                            Environment.Exit(0);
                         }
 
                         break;

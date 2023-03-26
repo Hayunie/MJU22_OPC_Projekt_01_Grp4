@@ -289,7 +289,7 @@ namespace Gym_Booking_Manager
 
                 Equipment.equipmentList.Add(new Equipment("Treadmill", Equipment.EquipmentType.large, Equipment.EquipmentCategory.treadmill));
                 Equipment.equipmentList.Add(new Equipment("TennisRacket", Equipment.EquipmentType.sport, Equipment.EquipmentCategory.tennis_racket));
-                //Equipment.equipmentList.Add(new Equipment("RowingMachine", Equipment.EquipmentType.Large, Equipment.EquipmentCategory.RowingMachine));
+                Equipment.equipmentList.Add(new Equipment("RowingMachine", Equipment.EquipmentType.large, Equipment.EquipmentCategory.rowing_machine));
 
                 PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Yanus Yoga", PersonalTrainer.TrainerCategory.yoga_instructor));
                 PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Gurra Gymbro", PersonalTrainer.TrainerCategory.gym_instructor));

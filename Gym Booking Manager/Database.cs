@@ -217,7 +217,29 @@ namespace Gym_Booking_Manager
 			}
 			else if (tableName == "GroupActivity")
 			{
+				cmd.CommandText = @"CREATE TABLE GroupActivity(personalTrainer TEXT, typeOfActivity TEXT, activtyId INT, participantLimit INT, timeSlot TEXT, participants TEXT, space TEXT, equipment TEXT )";
+				cmd.ExecuteNonQuery();
 
+				foreach (GroupActivity g in GroupSchedule.groupScheduleList)
+				{
+					cmd.CommandText = "INSERT INTO GroupActivity(personalTrainer, typeOfActivity, activtyId, participantLimit, timeSlot, participants, space, equipment) " +
+						"VALUES (@personalTrainer, @typeOfActivity, @activtyId, @participantLimit, @timeSlot, @participants, @space, @equipment)";
+
+					string trainers = string.Join(",", g.personalTrainer.Select(t => t.name));
+					string equipment = string.Join(",", g.equipment.Select(e => e.name));
+					string participants = string.Join(",", g.participants.Select(p => p.name));
+
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@personalTrainer", trainers);
+					cmd.Parameters.AddWithValue("@typeOfActivity", g.typeOfActivity);
+					cmd.Parameters.AddWithValue("@activtyId", g.activtyId);
+					cmd.Parameters.AddWithValue("@participantLimit", g.participantLimit);
+					cmd.Parameters.AddWithValue("@timeSlot", g.timeSlot);
+					cmd.Parameters.AddWithValue("@participants", participants);
+					cmd.Parameters.AddWithValue("@space", g.space.ToString());
+					cmd.Parameters.AddWithValue("@equipment", equipment);
+					cmd.ExecuteNonQuery();
+				}
 			}
 
 		}
