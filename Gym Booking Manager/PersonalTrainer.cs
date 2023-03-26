@@ -22,7 +22,8 @@ namespace Gym_Booking_Manager
 			"13:00-14:00",
 			"14:00-15:00"
 		};
-		public PersonalTrainer(string name = "", TrainerCategory trainerCategory = 0, Availability availability = Availability.Available, IReservingEntity owner = null, string timeSlot = "")
+		public static List<string> trainerColumn { get; set; } = new List<string>() { "trainerCategory", "name", "trainerAvailability" };
+		public PersonalTrainer(string name = "", TrainerCategory trainerCategory = 0, Availability availability = Availability.available, IReservingEntity owner = null, string timeSlot = "")
         {
             this.owner = owner;
             this.name = name;
@@ -31,16 +32,14 @@ namespace Gym_Booking_Manager
         }
         public enum TrainerCategory
         {
-            YogaInstructor,
-            GymInstructor,
-            TennisTeacher
+            yoga_instructor,
+            gym_instructor,
+            tennis_teacher
         }
         public enum Availability
         {
-            Available,
-            Service,
-            PlannedPurchase,
-            Reserved
+            available,
+            reserved
         }
         public Availability SetAvailability(Availability availability)
         {
@@ -48,12 +47,12 @@ namespace Gym_Booking_Manager
         }
         public static void ShowAvailable(string timeslot = "")
         {
-            personalTrainers = personalTrainers.OrderBy(x => x.trainerAvailability != Availability.Available).ToList();
+            personalTrainers = personalTrainers.OrderBy(x => x.trainerAvailability != Availability.available).ToList();
             personalTrainers = personalTrainers.OrderBy(x => x.reservedTimeSlot.Contains(timeslot)).ToList();
             index = 0;
             for (int i = 0; i < personalTrainers.Count; i++)
             {
-                if (personalTrainers[i].trainerAvailability == Availability.Available && !personalTrainers[i].reservedTimeSlot.Contains(timeslot))
+                if (personalTrainers[i].trainerAvailability == Availability.available && !personalTrainers[i].reservedTimeSlot.Contains(timeslot))
                 {
                     index++;
                     Console.WriteLine(i + 1 + " " + personalTrainers[i].name);
@@ -62,7 +61,7 @@ namespace Gym_Booking_Manager
         }
         public static void ReservTrainer(PersonalTrainer trainer, string timeslot, string customer)
         {
-            if (trainer.trainerAvailability == Availability.Available && !trainer.reservedTimeSlot.Contains(timeslot))
+            if (trainer.trainerAvailability == Availability.available && !trainer.reservedTimeSlot.Contains(timeslot))
             {
                 trainer.reservedTimeSlot.Add(timeslot);
                 IReservingEntity activity = new ReservingEntity(customer);
@@ -94,7 +93,7 @@ namespace Gym_Booking_Manager
 
             for (int i = 0; i < personalTrainers.Count; i++)
             {
-                if (personalTrainers[i].trainerAvailability == Availability.Available && !personalTrainers[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice - 1]))
+                if (personalTrainers[i].trainerAvailability == Availability.available && !personalTrainers[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice - 1]))
                 {
                     temp.Add(personalTrainers[i]);
                 }

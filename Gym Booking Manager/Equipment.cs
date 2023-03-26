@@ -8,7 +8,7 @@ namespace Gym_Booking_Manager
     {
         private List <string> _reservedTimeSlot = new List<string>();
 		public List<string> reservedTimeSlot { get { return _reservedTimeSlot; } set { _reservedTimeSlot = value; } }
-		private EquipmentType equipmentType;
+		public EquipmentType equipmentType { get; set; }
         public EquipmentCategory equipmentCategory { get; set; }
         public Availability equipmentAvailability { get; set; }
         public static int index { get; set; } = 0;
@@ -18,8 +18,10 @@ namespace Gym_Booking_Manager
 			"13:00-14:00",
 			"14:00-15:00"
 		};
+        public static List<string> equipColumn { get; set; } = new List<string>() { "equipmentCategory", "equipmentType", "name", "equipmentAvailability"};
+        
 
-		public Equipment(string name = "", EquipmentType equipmentType = 0, EquipmentCategory equipmentCategory = 0, Availability availability = Availability.Available, string timeSlot = "",IReservingEntity owner = null) : base(name, TimeSlot, "" ,owner = null)
+		public Equipment(string name = "", EquipmentType equipmentType = 0, EquipmentCategory equipmentCategory = 0, Availability availability = Availability.available, string timeSlot = "",IReservingEntity owner = null) : base(name, TimeSlot, "" ,owner = null)
         {
             this.equipmentAvailability = availability;
             this.equipmentType = equipmentType;
@@ -29,19 +31,19 @@ namespace Gym_Booking_Manager
 		}
         public enum EquipmentType
         {
-            Large,
-            Sport
+            large,
+            sport
         }
         public enum EquipmentCategory
         {
-            Treadmill, TennisRacket, RowingMachine
+            treadmill, tennis_racket, rowing_machine
         }
         public enum Availability
         {
-            Available,
-            Service,
-            PlannedPurchase,
-            Reserved
+            available,
+            service,
+            planned_purchase,
+            reserved
         }
         public Availability SetAvailability(Availability availability)
         {
@@ -49,13 +51,13 @@ namespace Gym_Booking_Manager
         }
         public override string ToString()
         {
-            return $"Namn: {name}, Category: {equipmentCategory}, Availability: {equipmentAvailability}";
+            return $"Namn: {name}, Category: {equipmentCategory}, Type: {equipmentType} ,Availability: {equipmentAvailability}";
         }
         public static void ShowService()
         {
             for (int i = 0; i < equipmentList.Count; i++)
             {
-                if (equipmentList[i].equipmentAvailability == Availability.Service)
+                if (equipmentList[i].equipmentAvailability == Availability.service)
                 {
                     Console.WriteLine(i + 1 + " " + equipmentList[i].name);
                 }
@@ -65,7 +67,7 @@ namespace Gym_Booking_Manager
         {
             for (int i = 0; i < equipmentList.Count; i++)
             {
-                if (equipmentList[i].equipmentAvailability == Availability.PlannedPurchase)
+                if (equipmentList[i].equipmentAvailability == Availability.planned_purchase)
                 {
                     Console.WriteLine(i + 1 + " " + equipmentList[i].name);
                 }
@@ -73,12 +75,12 @@ namespace Gym_Booking_Manager
         }
         public static void ShowAvailable(string timeslot = null)
         { 
-            equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.Available).ToList();
+            equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.available).ToList();
             equipmentList = equipmentList.OrderBy(x => x.reservedTimeSlot.Contains(timeslot)).ToList();
             index = 0;
             for (int i = 0; i < equipmentList.Count; i++)
             {
-                if (equipmentList[i].equipmentAvailability == Availability.Available && !equipmentList[i].reservedTimeSlot.Contains(timeslot))
+                if (equipmentList[i].equipmentAvailability == Availability.available && !equipmentList[i].reservedTimeSlot.Contains(timeslot))
                 {
                     index++;
                     Console.WriteLine(i + 1 + " " + equipmentList[i].name);
@@ -87,7 +89,7 @@ namespace Gym_Booking_Manager
         }
         public static void ReservEquipment(Equipment equipment, string timeslot, string owner)
         {
-            if (equipment.equipmentAvailability == Availability.Available && !equipment.reservedTimeSlot.Contains(timeslot))
+            if (equipment.equipmentAvailability == Availability.available && !equipment.reservedTimeSlot.Contains(timeslot))
             {
                 equipment.reservedTimeSlot.Add(timeslot);
                 IReservingEntity activity  = new ReservingEntity(owner);
@@ -101,13 +103,13 @@ namespace Gym_Booking_Manager
         }
         public static void ShowAvailableSport(string timeSlot = null)
         {
-			equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.Available).ToList();
+			equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.available).ToList();
 			equipmentList = equipmentList.OrderBy(x => x.reservedTimeSlot.Contains(timeSlot)).ToList();
-			equipmentList = equipmentList.OrderBy(x => x.equipmentType != EquipmentType.Sport).ToList();
+			equipmentList = equipmentList.OrderBy(x => x.equipmentType != EquipmentType.sport).ToList();
 			index = 0;
 			for (int i = 0; i < equipmentList.Count; i++)
 			{
-				if (equipmentList[i].equipmentAvailability == Availability.Available && equipmentList[i].equipmentType == EquipmentType.Sport && !equipmentList[i].reservedTimeSlot.Contains(timeSlot))
+				if (equipmentList[i].equipmentAvailability == Availability.available && equipmentList[i].equipmentType == EquipmentType.sport && !equipmentList[i].reservedTimeSlot.Contains(timeSlot))
 				{
 					index++;
 					Console.WriteLine(i + 1 + " " + equipmentList[i].name);
@@ -116,12 +118,12 @@ namespace Gym_Booking_Manager
         }
         public static void ShowAvailableLarge(string timeSlot = null)
         {
-			equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.Available).ToList();
+			equipmentList = equipmentList.OrderBy(x => x.equipmentAvailability != Availability.available).ToList();
 			equipmentList = equipmentList.OrderBy(x => x.reservedTimeSlot.Contains(timeSlot)).ToList();
-			equipmentList = equipmentList.OrderBy(x => x.equipmentType != EquipmentType.Large).ToList();
+			equipmentList = equipmentList.OrderBy(x => x.equipmentType != EquipmentType.large).ToList();
 			for (int i = 0; i < equipmentList.Count; i++)
             {
-                if (equipmentList[i].equipmentAvailability == Availability.Available && equipmentList[i].equipmentType == EquipmentType.Large && !equipmentList[i].reservedTimeSlot.Contains(timeSlot))
+                if (equipmentList[i].equipmentAvailability == Availability.available && equipmentList[i].equipmentType == EquipmentType.large && !equipmentList[i].reservedTimeSlot.Contains(timeSlot))
                 {
 					index++;
 					Console.WriteLine(i + 1 + " " + equipmentList[i].name);
@@ -134,7 +136,7 @@ namespace Gym_Booking_Manager
             List<Equipment> temp = new List<Equipment>();
             foreach (var equipment in equipmentList)
             {
-                if (equipment.equipmentAvailability == Availability.Service)
+                if (equipment.equipmentAvailability == Availability.service)
                 {
                     temp.Add(equipment);
                 }
@@ -145,7 +147,7 @@ namespace Gym_Booking_Manager
                 Console.WriteLine("Choose Equipment");
                 Equipment.ShowService();
                 int n = int.Parse(Console.ReadLine());
-                temp[n - 1].SetAvailability(Availability.Available);
+                temp[n - 1].SetAvailability(Availability.available);
                 Console.Clear();
                 Console.WriteLine($"{temp[n - 1].name} - availability set to {temp[n - 1].equipmentAvailability}");
 
@@ -166,7 +168,7 @@ namespace Gym_Booking_Manager
             List<Equipment> temp = new List<Equipment>();
             foreach (var equipment in equipmentList)
             {
-                if (equipment.equipmentAvailability == Availability.Available)
+                if (equipment.equipmentAvailability == Availability.available)
                 {
                     temp.Add(equipment);
                 }
@@ -187,11 +189,11 @@ namespace Gym_Booking_Manager
 
                 if (res == 1)
                 {
-                    temp[n - 1].SetAvailability(Availability.Service);
+                    temp[n - 1].SetAvailability(Availability.service);
                 }
                 else if (res == 2)
                 {
-                    temp[n - 1].SetAvailability(Availability.PlannedPurchase);
+                    temp[n - 1].SetAvailability(Availability.planned_purchase);
                 }
                 else
                 {
@@ -232,7 +234,7 @@ namespace Gym_Booking_Manager
 
 			for (int i = 0; i < equipmentList.Count; i++)
 			{
-				if (equipmentList[i].equipmentAvailability == Availability.Available && !equipmentList[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice-1]))
+				if (equipmentList[i].equipmentAvailability == Availability.available && !equipmentList[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice-1]))
 				{
                     tempAll.Add(equipmentList[i]);
 				}
@@ -260,7 +262,7 @@ namespace Gym_Booking_Manager
                 {
                     foreach (var equipment in tempAll)
                     {
-                        if (equipment.equipmentType == EquipmentType.Large)
+                        if (equipment.equipmentType == EquipmentType.large)
                         {
                             temp.Add(equipment);
                         }
@@ -281,7 +283,7 @@ namespace Gym_Booking_Manager
                 {
 					foreach (var equipment in tempAll)
 					{
-						if (equipment.equipmentType == EquipmentType.Sport)
+						if (equipment.equipmentType == EquipmentType.sport)
 						{
 							temp.Add(equipment);
 						}

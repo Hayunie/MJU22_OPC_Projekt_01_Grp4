@@ -283,17 +283,17 @@ namespace Gym_Booking_Manager
             {
                 Directory.CreateDirectory("CSV");
 
-                Space.spaceList.Add(new Space("Hall", Space.SpaceCategory.Hall, Space.Availability.Available));
-                Space.spaceList.Add(new Space("Lane", Space.SpaceCategory.Lane, Space.Availability.Available));
-                Space.spaceList.Add(new Space("Studio", Space.SpaceCategory.Studio, Space.Availability.Available));
+                Space.spaceList.Add(new Space("Hall", Space.SpaceCategory.hall, Space.Availability.available));
+                Space.spaceList.Add(new Space("Lane", Space.SpaceCategory.lane, Space.Availability.available));
+                Space.spaceList.Add(new Space("Studio", Space.SpaceCategory.studio, Space.Availability.available));
 
-                Equipment.equipmentList.Add(new Equipment("Treadmill", Equipment.EquipmentType.Large, Equipment.EquipmentCategory.Treadmill));
-                Equipment.equipmentList.Add(new Equipment("TennisRacket", Equipment.EquipmentType.Sport, Equipment.EquipmentCategory.TennisRacket));
-                Equipment.equipmentList.Add(new Equipment("RowingMachine", Equipment.EquipmentType.Large, Equipment.EquipmentCategory.RowingMachine));
+                Equipment.equipmentList.Add(new Equipment("Treadmill", Equipment.EquipmentType.large, Equipment.EquipmentCategory.treadmill));
+                Equipment.equipmentList.Add(new Equipment("TennisRacket", Equipment.EquipmentType.sport, Equipment.EquipmentCategory.tennis_racket));
+                //Equipment.equipmentList.Add(new Equipment("RowingMachine", Equipment.EquipmentType.Large, Equipment.EquipmentCategory.RowingMachine));
 
-                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Yanus Yoga", PersonalTrainer.TrainerCategory.YogaInstructor));
-                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Gurra Gymbro", PersonalTrainer.TrainerCategory.GymInstructor));
-                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Tomas Tennis", PersonalTrainer.TrainerCategory.TennisTeacher));
+                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Yanus Yoga", PersonalTrainer.TrainerCategory.yoga_instructor));
+                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Gurra Gymbro", PersonalTrainer.TrainerCategory.gym_instructor));
+                PersonalTrainer.personalTrainers.Add(new PersonalTrainer("Tomas Tennis", PersonalTrainer.TrainerCategory.tennis_teacher));
 
                 GroupActivity temp = new GroupActivity(
                                 PersonalTrainer.personalTrainers, //Personal Trainer

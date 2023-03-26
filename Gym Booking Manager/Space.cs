@@ -29,6 +29,7 @@ namespace Gym_Booking_Manager
 			"13:00-14:00",
 			"14:00-15:00"
 		};
+		public static List<string> spaceColumn { get; set; } = new List<string>() { "spaceCategory", "name", "spaceAvailability" };
 		public Space(string name = "", SpaceCategory spaceCategory = 0, Availability availability = 0, IReservingEntity owner = null, string timeSlot = "") :base(name,TimeSlot,"",null)
         {
             this.spaceCategory = spaceCategory;
@@ -49,15 +50,15 @@ namespace Gym_Booking_Manager
         }        
         public enum SpaceCategory
         {
-            Hall,
-            Lane,
-            Studio
+            hall,
+            lane,
+            studio
         }
         public enum Availability
         {
-            Available,
-            Unavailable,
-            Reserved
+            available,
+            unavailable,
+            reserved
         }
         public Availability SetAvailability(Availability availability)
         {
@@ -65,12 +66,12 @@ namespace Gym_Booking_Manager
         }
         public static void ShowAvailable(string timeslot = null)
         {
-			spaceList = spaceList.OrderBy(x => x.spaceAvailability != Availability.Available).ToList();
+			spaceList = spaceList.OrderBy(x => x.spaceAvailability != Availability.available).ToList();
 			spaceList = spaceList.OrderBy(x => x.reservedTimeSlot.Contains(timeslot)).ToList();
 			int index = 0;
 			for (int i = 0; i < spaceList.Count; i++)
 			{
-				if (spaceList[i].spaceAvailability == Availability.Available && !spaceList[i].reservedTimeSlot.Contains(timeslot))
+				if (spaceList[i].spaceAvailability == Availability.available && !spaceList[i].reservedTimeSlot.Contains(timeslot))
 				{
 					index++;
 					Console.WriteLine(i + 1 + " " + spaceList[i].name);
@@ -81,7 +82,7 @@ namespace Gym_Booking_Manager
         {
 			for (int i = 0; i < spaceList.Count; i++)
 			{
-				if (spaceList[i].spaceAvailability == Availability.Unavailable)
+				if (spaceList[i].spaceAvailability == Availability.unavailable)
 				{
 					Console.WriteLine(i + 1 + " " + spaceList[i].name);
 				}
@@ -94,7 +95,7 @@ namespace Gym_Booking_Manager
 			List<Space> temp = new List<Space>();
 			foreach (var space in spaceList)
 			{
-				if (space.spaceAvailability == Availability.Available)
+				if (space.spaceAvailability == Availability.available)
 				{
 					temp.Add(space);
 				}
@@ -107,7 +108,7 @@ namespace Gym_Booking_Manager
                 int n = int.Parse(Console.ReadLine());
 
                 Console.Clear();
-                spaceList[n - 1].spaceAvailability = Availability.Unavailable;
+                spaceList[n - 1].spaceAvailability = Availability.unavailable;
                 Console.WriteLine($"{spaceList[n - 1].name} - set to {spaceList[n - 1].spaceAvailability}");
                 Console.WriteLine("Press enter...");
                 Console.ReadLine();
@@ -139,7 +140,7 @@ namespace Gym_Booking_Manager
 
 			for (int i = 0; i < spaceList.Count; i++)
 			{
-				if (spaceList[i].spaceAvailability == Availability.Available && !spaceList[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice - 1]))
+				if (spaceList[i].spaceAvailability == Availability.available && !spaceList[i].reservedTimeSlot.Contains(TimeSlot[timeSlotChoice - 1]))
 				{
 					temp.Add(spaceList[i]);
 				}

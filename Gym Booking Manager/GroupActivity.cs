@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Gym_Booking_Manager.Equipment;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Gym_Booking_Manager
 {
@@ -19,27 +20,27 @@ namespace Gym_Booking_Manager
         public List<PersonalTrainer> personalTrainer { get; set; }
         public Space space { get; set; }
         public List<Equipment> equipment { get; set; }
-        public string typeOfActivity { get; set; }
-        
-        public GroupActivity(
-                    List<PersonalTrainer> personalTrainer = null,
-                    string typeOfActivity = "",
-                    int activtyId = 0,
-                    int participantLimit = 0,
-                    string timeSlot = "",
-                    List<Customer> participants = null,
-                    Space space = null,
-                    List<Equipment> equipment = null
-                    )
-        {
-            this.typeOfActivity = typeOfActivity;
-            this.activtyId = activtyId;
-            this.participantLimit = participantLimit;
-            this.timeSlot = timeSlot;
-            this.participants = participants;
-            this.personalTrainer = personalTrainer;
-            this.space = space;
-            this.equipment = equipment;
+		public string typeOfActivity { get; set; }
+		public static List<string> groupColumn { get; set; } = new List<string>() { "personalTrainer", "typeOfActivity", "activtyId", "participantLimit", "timeSlot", "participants", "space", "equipment" };
+		public GroupActivity(
+		List<PersonalTrainer> personalTrainer = null,
+		string typeOfActivity = "",
+		int activtyId = 0,
+		int participantLimit = 0,
+		string timeSlot = "",
+		List<Customer> participants = null,
+		Space space = null,
+		List<Equipment> equipment = null
+		)
+		{
+			this.typeOfActivity = typeOfActivity;
+			this.activtyId = activtyId;
+			this.participantLimit = participantLimit;
+			this.timeSlot = timeSlot;
+			this.participants = participants;
+			this.personalTrainer = personalTrainer;
+			this.space = space;
+			this.equipment = equipment;
         }
         public override string ToString()
         {

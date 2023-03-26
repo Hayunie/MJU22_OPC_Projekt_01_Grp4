@@ -79,7 +79,7 @@ namespace Gym_Booking_Manager
                 Console.WriteLine($"{i + 1}. {menuOptions[i]}");
             }
         }
-        public static void MainMenu()
+        public static void MainMenu(int db)
         {
             Console.WriteLine("-------------Main Menu:-------------");
             Console.WriteLine("1. Login");
@@ -87,10 +87,10 @@ namespace Gym_Booking_Manager
             Console.WriteLine("3. Non member access");
             Console.WriteLine("4. Quit");
             Console.WriteLine("------------------------------------\n");
-            try
-            {
-                int command = int.Parse(Console.ReadLine());
 
+			string input = Console.ReadLine().Trim();
+			if (int.TryParse(input, out int command))
+            {
                 switch (command)
                 {
                     case 1:
@@ -130,13 +130,25 @@ namespace Gym_Booking_Manager
 						break;
 					case 4:
                         Console.WriteLine("\nExiting program...");
-                        CsvHandler csvHandler = new CsvHandler();
-                        csvHandler.WriteFile(Space.spaceList, "Spaces.txt");
-                        csvHandler.WriteFile(Equipment.equipmentList, "Equipment.txt");
-                        csvHandler.WriteFile(PersonalTrainer.personalTrainers, "PersonalTrainer.txt");
-                        csvHandler.WriteFile(GroupSchedule.groupScheduleList, "GroupActivity.txt");
+                        if (db == 1)
+                        {
+                            CsvHandler csvHandler = new CsvHandler();
+                            csvHandler.WriteFile(Space.spaceList, "Spaces.txt");
+                            csvHandler.WriteFile(Equipment.equipmentList, "Equipment.txt");
+                            csvHandler.WriteFile(PersonalTrainer.personalTrainers, "PersonalTrainer.txt");
+                            csvHandler.WriteFile(GroupSchedule.groupScheduleList, "GroupActivity.txt");
+							Environment.Exit(0);
+						}
+                        else if (db == 2)
+                        {
+                            Database database = new Database();
+                            database.WriteData("Equipment", Equipment.equipColumn, Equipment.equipmentList);
+							database.WriteData("Spaces", Space.spaceColumn, Space.spaceList);
+							database.WriteData("PersonalTrainer", PersonalTrainer.trainerColumn ,PersonalTrainer.personalTrainers);
+							database.WriteData("GroupActivity", GroupActivity.groupColumn, GroupSchedule.groupScheduleList);
+							Environment.Exit(0);
+                        }
 
-                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
@@ -144,8 +156,12 @@ namespace Gym_Booking_Manager
                         Console.Clear();
                         break;
                 }
+
             }
-            catch { Console.WriteLine("Invalid input. Press Enter to try again!"); Console.ReadLine(); Console.Clear(); }
+            else
+            {
+				Console.WriteLine("Invalid input. Press Enter to try again!"); Console.ReadLine(); Console.Clear();
+			}
         }
         public static void LoginMenu()
         {
@@ -208,8 +224,7 @@ namespace Gym_Booking_Manager
                         break;
                     case 5:
                         Console.Clear();
-                        MainMenu();
-                        break;
+                        return;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
                         Console.ReadLine();
@@ -292,8 +307,7 @@ namespace Gym_Booking_Manager
                             break;
                         case 12:
                             Console.Clear();
-						    Menutracker.MainMenu();
-                            break;
+						    return;
                         default:
                             Console.WriteLine("Invalid input. Press Enter to try again!");
                             Console.ReadLine();
@@ -374,8 +388,7 @@ namespace Gym_Booking_Manager
                         break;
                     case 11:
                         Console.Clear();
-						MainMenu();
-                        break;
+						return;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
                         Console.ReadLine();
@@ -464,8 +477,7 @@ namespace Gym_Booking_Manager
                         //        }
                         //    }
                         //}
-                        MainMenu();
-                        break;
+                        return;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
                         Console.ReadLine();
@@ -525,8 +537,7 @@ namespace Gym_Booking_Manager
                         break;
                     case 7:
                         Console.Clear();
-						MainMenu();
-                        break;
+						return;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
                         Console.ReadLine();
@@ -582,8 +593,7 @@ namespace Gym_Booking_Manager
                             break;
                         case 6:
                             Console.Clear();
-						    MainMenu();
-                            break;
+						    return;
                         default:
                             Console.WriteLine("Invalid input. Press Enter to try again!");
                             Console.ReadLine();
@@ -618,8 +628,7 @@ namespace Gym_Booking_Manager
                         break;
                     case 2:
                         Console.Clear();
-                        MainMenu();
-                        break;
+                        return;
                     default:
                         Console.WriteLine("Invalid input. Press Enter to try again!");
                         Console.ReadLine();
@@ -959,5 +968,28 @@ namespace Gym_Booking_Manager
 				Console.WriteLine("Invalid input. Please enter a valid customer index.");
 			}
 		}
+        public int ChooseDb()
+        {
+            Console.WriteLine("Do you want to use CSV or database?\n");
+            Console.WriteLine("1. CSV");
+            Console.WriteLine("2. Database");
+            int cmd;
+            try
+            {
+                if (int.TryParse( Console.ReadLine(), out cmd))
+                {
+                    Console.Clear();
+                    return cmd;
+                }
+                else 
+                {
+					Console.WriteLine("Try again!");
+                    Console.Clear();
+					return 0;
+				}
+
+            }
+            catch (Exception e) { Console.WriteLine("Try again!"); return 0; }
+        }
 	}
 }
