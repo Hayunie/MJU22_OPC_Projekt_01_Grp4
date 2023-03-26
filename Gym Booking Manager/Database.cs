@@ -151,53 +151,77 @@ namespace Gym_Booking_Manager
 				}
 			}
 		}
-		public void WriteData<T>(string tableName, List<string> columnNames, List<T> dataList)
+		public void WriteData(string tableName)
 		{
 			var connectionString = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
 			using var connection = new NpgsqlConnection(connectionString);
 			connection.Open();
 
-			if (columnNames == null || dataList == null || columnNames.Count == 0)
-			{
-				Console.WriteLine("Invalid input");
-				return;
-			}
-			using var command = new NpgsqlCommand();
-			command.Connection = connection;
+			using var cmd = new NpgsqlCommand();
+			cmd.Connection = connection;
 
 			// drop table if exists
-			command.CommandText = $"DROP TABLE IF EXISTS {tableName}";
-			command.ExecuteNonQuery();
+			cmd.CommandText = $"DROP TABLE IF EXISTS {tableName}";
+			cmd.ExecuteNonQuery();
 
-			// create table with specified columns
-			command.CommandText = $"CREATE TABLE {tableName} ({string.Join(",", columnNames.Select(c => $"{c} TEXT"))})";
-			command.ExecuteNonQuery();
-
-			// insert data into the table
-			var valuePlaceholders = string.Join(",", Enumerable.Range(0, columnNames.Count).Select(i => $"@Value{i + 1}"));
-			var query = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({valuePlaceholders})";
-
-			foreach (var data in dataList)
+			if (tableName == "Equipment")
 			{
-				command.CommandText = query;
+				cmd.CommandText = @"CREATE TABLE Equipment(equipmentCategory equipment_category, equipmentType equipment_type, name TEXT, equipmentAvailability availability)";
+				cmd.ExecuteNonQuery();
 
-				// Set parameter values for the query
-				for (int i = 0; i < columnNames.Count; i++)
+				foreach (Equipment e in Equipment.equipmentList)
 				{
-					var property = data.GetType().GetProperty(columnNames[i]);
-					if (property == null)
-					{
-						throw new ArgumentException($"Property '{columnNames[i]}' not found on object of type '{data.GetType().FullName}'");
-					}
-					command.Parameters.AddWithValue($"@Value{i + 1}", property.GetValue(data));
-				}
 
-				command.ExecuteNonQuery();
+					cmd.CommandText = $"INSERT INTO Equipment(equipmentCategory, equipmentType, name, equipmentAvailability) VALUES (@equipmentCategory, @equipmentType, @name, @equipmentAvailability)";
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@equipmentCategory", e.equipmentCategory);
+					cmd.Parameters.AddWithValue("@equipmentType", e.equipmentType);
+					cmd.Parameters.AddWithValue("@name", e.name);
+					cmd.Parameters.AddWithValue("@equipmentAvailability", e.equipmentAvailability);
+					cmd.ExecuteNonQuery();				
+				}
+			}
+			else if (tableName == "Spaces")
+			{
+				cmd.CommandText = @"CREATE TABLE Spaces(spaceCategory space_category, name TEXT, spaceAvailability availability)";
+				cmd.ExecuteNonQuery();
+
+				foreach (Space s in Space.spaceList)
+				{
+
+					cmd.CommandText = "INSERT INTO Spaces (spaceCategory, name, spaceAvailability) VALUES (@spaceCategory, @name, @spaceAvailability)";
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@spaceCategory", s.spaceCategory);
+					cmd.Parameters.AddWithValue("@name", s.name);
+					cmd.Parameters.AddWithValue("@spaceAvailability", s.spaceAvailability);
+					cmd.ExecuteNonQuery();
+
+				}
+			}
+			else if (tableName == "PersonalTrainer")
+			{
+				cmd.CommandText = @"CREATE TABLE PersonalTrainer(trainerCategory trainer_category, name TEXT, trainerAvailability availability)";
+				cmd.ExecuteNonQuery();
+
+				foreach (PersonalTrainer p in PersonalTrainer.personalTrainers)
+				{
+
+					cmd.CommandText = "INSERT INTO PersonalTrainer(trainerCategory, name, trainerAvailability) VALUES (@trainerCategory, @name, @trainerAvailability)";
+					cmd.Parameters.Clear();
+					cmd.Parameters.AddWithValue("@trainerCategory", p.trainerCategory);
+					cmd.Parameters.AddWithValue("@name", p.name);
+					cmd.Parameters.AddWithValue("@trainerAvailability", p.trainerAvailability);
+					cmd.ExecuteNonQuery();
+
+				}
+			}
+			else if (tableName == "GroupActivity")
+			{
+
 			}
 
-			
-
 		}
+
 
 
 		public void CreateDatabase()
@@ -261,15 +285,15 @@ namespace Gym_Booking_Manager
 			cmd.ExecuteNonQuery();
 
 			// Equipment
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Equipment(equipmentCategory TEXT, equipmentType VARCHAR(50), name TEXT, equipmentAvailability VARCHAR(50))";
+			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Equipment(equipmentCategory equipment_category, equipmentType equipment_type, name TEXT, equipmentAvailability availability)";
 			cmd.ExecuteNonQuery();
 
 			// Spaces
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Spaces(spaceCategory VARCHAR(50), name TEXT, spaceAvailability VARCHAR(50))";
+			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Spaces(spaceCategory space_category, name TEXT, spaceAvailability availability)";
 			cmd.ExecuteNonQuery();
 
 			// Personal Trainers
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS PersonalTrainer(trainerCategory VARCHAR(50), name TEXT, trainerAvailability VARCHAR(50))";
+			cmd.CommandText = "CREATE TABLE IF NOT EXISTS PersonalTrainer(trainerCategory trainer_category, name TEXT, trainerAvailability availability)";
 			cmd.ExecuteNonQuery();
 
 			// Group activity

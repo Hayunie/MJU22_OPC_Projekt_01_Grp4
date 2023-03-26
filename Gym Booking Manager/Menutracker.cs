@@ -142,10 +142,10 @@ namespace Gym_Booking_Manager
                         else if (db == 2)
                         {
                             Database database = new Database();
-                            database.WriteData("Equipment", Equipment.equipColumn, Equipment.equipmentList);
-							database.WriteData("Spaces", Space.spaceColumn, Space.spaceList);
-							database.WriteData("PersonalTrainer", PersonalTrainer.trainerColumn ,PersonalTrainer.personalTrainers);
-							database.WriteData("GroupActivity", GroupActivity.groupColumn, GroupSchedule.groupScheduleList);
+                            database.WriteData("Equipment");
+							database.WriteData("Spaces");
+							database.WriteData("PersonalTrainer");
+							database.WriteData("GroupActivity");
 							Environment.Exit(0);
                         }
 

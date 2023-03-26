@@ -41,7 +41,7 @@ namespace Gym_Booking_Manager
                 else if (cmd == 2)
                 {
                     Database db = new Database();
-                    db.CreateDatabase();                   
+                    db.CreateDatabase();
                     db.ResetDatabase();
                     LoadFiles(2);
                 }
