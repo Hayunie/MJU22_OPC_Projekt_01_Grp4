@@ -43,6 +43,7 @@ namespace Gym_Booking_Manager
                     Database db = new Database();
                     // Resets the db
                     //db.CreateDatabase();
+                    // Would be optimal if method has conditions for the insert...
                     db.ResetDatabase();
                     LoadFiles(2);
                 }
