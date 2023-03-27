@@ -22,7 +22,6 @@ namespace Gym_Booking_Manager
 			"13:00-14:00",
 			"14:00-15:00"
 		};
-		//public static List<string> trainerColumn { get; set; } = new List<string>() { "trainerCategory", "name", "trainerAvailability" };
 		public PersonalTrainer(string name = "", TrainerCategory trainerCategory = 0, Availability availability = Availability.available, IReservingEntity owner = null, string timeSlot = "")
         {
             this.owner = owner;

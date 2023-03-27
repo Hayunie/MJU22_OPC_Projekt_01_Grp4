@@ -21,7 +21,6 @@ namespace Gym_Booking_Manager
         public Space space { get; set; }
         public List<Equipment> equipment { get; set; }
 		public string typeOfActivity { get; set; }
-		public static List<string> groupColumn { get; set; } = new List<string>() { "personalTrainer", "typeOfActivity", "activtyId", "participantLimit", "timeSlot", "participants", "space", "equipment" };
 		public GroupActivity(
 		List<PersonalTrainer> personalTrainer = null,
 		string typeOfActivity = "",

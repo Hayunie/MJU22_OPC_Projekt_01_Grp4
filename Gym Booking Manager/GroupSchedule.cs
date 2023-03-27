@@ -18,7 +18,6 @@ namespace Gym_Booking_Manager
         private static List<GroupActivity> _groupScheduleList = new List<GroupActivity>();
         public static List<GroupActivity> groupScheduleList { get { return _groupScheduleList; } set { _groupScheduleList = value; } }
 
-
         public static List<string> TypeOfActivity = new List<string>()
         {
             "Spinning Class",

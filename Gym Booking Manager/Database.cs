@@ -243,9 +243,6 @@ namespace Gym_Booking_Manager
 			}
 
 		}
-
-
-
 		public void CreateDatabase()
 		{
 			var cs = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
@@ -324,7 +321,6 @@ namespace Gym_Booking_Manager
 
 
 		}
-
 		public void ResetDatabase()
 		{
 			var cs = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
