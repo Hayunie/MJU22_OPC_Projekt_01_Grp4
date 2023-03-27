@@ -251,84 +251,84 @@ namespace Gym_Booking_Manager
 			}
 
 		}
-		public void CreateDatabase()
-		{
-			var cs = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
-			using var con = new NpgsqlConnection(cs);
-			con.Open();
+		//public void CreateDatabase()
+		//{
+		//	var cs = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
+		//	using var con = new NpgsqlConnection(cs);
+		//	con.Open();
 
-			using var cmd = new NpgsqlCommand();
-			cmd.Connection = con;
+		//	using var cmd = new NpgsqlCommand();
+		//	cmd.Connection = con;
 
-			// Types
-			cmd.CommandText = @"
-				DO $$
-				BEGIN
-			CREATE TYPE equipment_category AS ENUM('treadmill', 'tennis_racket', 'rowing_machine');
-			EXCEPTION
-				WHEN duplicate_object THEN null;
-			END $$";
-			//cmd.CommandText = "CREATE TYPE equipment_category AS ENUM('Treadmill', 'TennisRacket', 'RowingMachine')";
-			cmd.ExecuteNonQuery();
+		//	Types
+		//	cmd.CommandText = @"
+		//		DO $$
+		//		BEGIN
+		//	CREATE TYPE equipment_category AS ENUM('treadmill', 'tennis_racket', 'rowing_machine');
+		//	EXCEPTION
+		//		WHEN duplicate_object THEN null;
+		//	END $$";
+		//	cmd.CommandText = "CREATE TYPE equipment_category AS ENUM('Treadmill', 'TennisRacket', 'RowingMachine')";
+		//	cmd.ExecuteNonQuery();
 
-			cmd.CommandText = @"
-				DO $$
-				BEGIN
-			CREATE TYPE equipment_type AS ENUM('large', 'sport');
-			EXCEPTION
-				WHEN duplicate_object THEN null;
-			END $$";
-			//cmd.CommandText = "CREATE TYPE equipment_type AS ENUM('Large', 'Sport')";
-			cmd.ExecuteNonQuery();
+		//	cmd.CommandText = @"
+		//		DO $$
+		//		BEGIN
+		//	CREATE TYPE equipment_type AS ENUM('large', 'sport');
+		//	EXCEPTION
+		//		WHEN duplicate_object THEN null;
+		//	END $$";
+		//	cmd.CommandText = "CREATE TYPE equipment_type AS ENUM('Large', 'Sport')";
+		//	cmd.ExecuteNonQuery();
 
-			cmd.CommandText = @"
-				DO $$
-				BEGIN
-			CREATE TYPE space_category AS ENUM('hall', 'lane', 'studio');
-			EXCEPTION
-				WHEN duplicate_object THEN null;
-			END $$";
-			//cmd.CommandText = "CREATE TYPE space_category AS ENUM('Hall', 'Lane', 'Studio')";
-			cmd.ExecuteNonQuery();
+		//	cmd.CommandText = @"
+		//		DO $$
+		//		BEGIN
+		//	CREATE TYPE space_category AS ENUM('hall', 'lane', 'studio');
+		//	EXCEPTION
+		//		WHEN duplicate_object THEN null;
+		//	END $$";
+		//	cmd.CommandText = "CREATE TYPE space_category AS ENUM('Hall', 'Lane', 'Studio')";
+		//	cmd.ExecuteNonQuery();
 
-			cmd.CommandText = @"
-				DO $$
-				BEGIN
-			CREATE TYPE trainer_category AS ENUM('yoga_instructor', 'gym_instructor', 'tennis_teacher');
-			EXCEPTION
-				WHEN duplicate_object THEN null;
-			END $$";
-			//cmd.CommandText = "CREATE TYPE trainer_category AS ENUM('YogaInstructor', 'GymInstructor', 'TennisTeacher')";
-			cmd.ExecuteNonQuery();
+		//	cmd.CommandText = @"
+		//		DO $$
+		//		BEGIN
+		//	CREATE TYPE trainer_category AS ENUM('yoga_instructor', 'gym_instructor', 'tennis_teacher');
+		//	EXCEPTION
+		//		WHEN duplicate_object THEN null;
+		//	END $$";
+		//	cmd.CommandText = "CREATE TYPE trainer_category AS ENUM('YogaInstructor', 'GymInstructor', 'TennisTeacher')";
+		//	cmd.ExecuteNonQuery();
 
-			cmd.CommandText = @"
-				DO $$
-				BEGIN
-			CREATE TYPE availability AS ENUM('available', 'service', 'planned_purchase', 'reserved', 'unavailable');
-			EXCEPTION
-				WHEN duplicate_object THEN null;
-			END $$";
-			//cmd.CommandText = "CREATE TYPE availability AS ENUM('Available', 'Service', 'PlannedPurchase', 'Reserved', 'Unavailable')";
-			cmd.ExecuteNonQuery();
+		//	cmd.CommandText = @"
+		//		DO $$
+		//		BEGIN
+		//	CREATE TYPE availability AS ENUM('available', 'service', 'planned_purchase', 'reserved', 'unavailable');
+		//	EXCEPTION
+		//		WHEN duplicate_object THEN null;
+		//	END $$";
+		//	cmd.CommandText = "CREATE TYPE availability AS ENUM('Available', 'Service', 'PlannedPurchase', 'Reserved', 'Unavailable')";
+		//	cmd.ExecuteNonQuery();
 
-			// Equipment
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Equipment(equipmentCategory equipment_category, equipmentType equipment_type, name TEXT, equipmentAvailability availability)";
-			cmd.ExecuteNonQuery();
+		//	Equipment
+		//	cmd.CommandText = "CREATE TABLE IF NOT EXISTS Equipment(equipmentCategory equipment_category, equipmentType equipment_type, name TEXT, equipmentAvailability availability)";
+		//	cmd.ExecuteNonQuery();
 
-			// Spaces
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS Spaces(spaceCategory space_category, name TEXT, spaceAvailability availability)";
-			cmd.ExecuteNonQuery();
+		//	Spaces
+		//	cmd.CommandText = "CREATE TABLE IF NOT EXISTS Spaces(spaceCategory space_category, name TEXT, spaceAvailability availability)";
+		//	cmd.ExecuteNonQuery();
 
-			// Personal Trainers
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS PersonalTrainer(trainerCategory trainer_category, name TEXT, trainerAvailability availability)";
-			cmd.ExecuteNonQuery();
+		//	Personal Trainers
+		//	cmd.CommandText = "CREATE TABLE IF NOT EXISTS PersonalTrainer(trainerCategory trainer_category, name TEXT, trainerAvailability availability)";
+		//	cmd.ExecuteNonQuery();
 
-			// Group activity
-			cmd.CommandText = "CREATE TABLE IF NOT EXISTS GroupActivity(personalTrainer TEXT, typeOfActivity TEXT, activtyId INT, participantLimit INT, timeSlot TEXT, participants TEXT, space TEXT, equipment TEXT )";
-			cmd.ExecuteNonQuery();
+		//	Group activity
+		//	cmd.CommandText = "CREATE TABLE IF NOT EXISTS GroupActivity(personalTrainer TEXT, typeOfActivity TEXT, activtyId INT, participantLimit INT, timeSlot TEXT, participants TEXT, space TEXT, equipment TEXT )";
+		//	cmd.ExecuteNonQuery();
 
 
-		}
+		//}
 		public void ResetDatabase()
 		{
 			var cs = "Host=localhost;Username=postgres;Password=123;Database=Gymbooking";
