@@ -227,7 +227,15 @@ namespace Gym_Booking_Manager
 
 					string trainers = string.Join(",", g.personalTrainer.Select(t => t.name));
 					string equipment = string.Join(",", g.equipment.Select(e => e.name));
-					string participants = string.Join(",", g.participants.Select(p => p.name));
+					string participants = "";
+					if (g.participants == null) 
+					{
+						participants = "";
+					}
+					else
+					{
+						participants = string.Join(",", g.participants.Select(p => p.name));
+					}
 
 					cmd.Parameters.Clear();
 					cmd.Parameters.AddWithValue("@personalTrainer", trainers);
